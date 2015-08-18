@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<style>	
+			label{display: block;}
+			.labs-validator{color:#f00;}
+		</style>
+	</head>
+	<body>
+		
+		<form id="test-form">
+			<div>
+				<label>email<label>
+				<input type="text" name="email_address" validator-required validator-email>
+			</div>
+			<div>
+				<label>Password</label>
+				<input type="password" name="password" validator-required>
+			</div>
+			<div>
+				<label>Confirm Password</label>
+				<input type="password" name="confirm_password" validator-required validator-same="password">
+			</div>
+			<button>Submit</button>
+		</form>
+
+		<script src="labs-validator.js"></script>
+		<script>
+			var validator = new labsValidator('test-form');
+
+			document.getElementById('test-form').addEventListener('submit',function(e){
+				
+				if(validator.passes()){
+					alert('Submitted');
+				}else{
+					e.preventDefault();
+				}
+					
+
+			})
+
+		</script>
+		
+	</body>
+
+</html>
