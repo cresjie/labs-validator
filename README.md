@@ -3,6 +3,8 @@ standalone javascript form validator
 
 Basic Usage
 ----------
+add "validator-..." attribute to the element
+
 ```html
   <body>
     <form id="test-form">
@@ -26,14 +28,15 @@ Basic Usage
 ```
 
 ```javascript
-  var validator = new labsValidator('myFormId');
+//pass the form element id in the labsValidator constructor
+  var validator = new labsValidator('test-form');
   
   document.getElementById('test-form').addEventListener('submit',function(e){
         if(validator.passes()){
-					alert('Submitted');
-				}else{
-					e.preventDefault();
-				}
+		alert('Submitted');
+	}else{
+		e.preventDefault();
+	}
   });
   
 ```
