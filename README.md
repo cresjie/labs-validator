@@ -31,10 +31,14 @@ add "validator-..." attribute to the element
 //pass the form element id in the labsValidator constructor
   var validator = new labsValidator('test-form');
   
+  
+  
   document.getElementById('test-form').addEventListener('submit',function(e){
-        if(validator.passes()){
+        //we'll validate the inputs before the form is submitted
+        if(validator.passes()){ //method passes() return true if the inputs are valid
 		alert('Submitted');
 	}else{
+		
 		e.preventDefault();
 	}
   });
