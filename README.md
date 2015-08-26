@@ -48,23 +48,20 @@ add "validator-..." attribute to the element
 Public methods
 ----------
 
- - fails()
+ - **fails()**
   - returns true if validator fails
- - passes()
+ - **passes()**
   - returns true if validator success
- - displayErrors()
+ - **displayErrors()**
   - displays validation error in the frontend
- - reset()
+ - **reset()**
   - removes validation error in the frontend
   - clears the validation error messages
 
 
 Extending Validation
 ------------
-	- labsValidator.addValidator(name,fn);
-	
-  - sd
-  - Type some Markdown on the left
-  - See HTML in the right
-  - Magic
+ - **labsValidator.addValidator(name,fn);**
+ - **labsValidator.addValidatorMsg(name,fn);**
+ 
 
