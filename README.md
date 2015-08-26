@@ -64,9 +64,7 @@ Extending Validation
 	- labsValidator.addValidator(name,fn);
 	
 	- sd
-	
-	 - Type some Markdown on the left
-	 
+  - Type some Markdown on the left
   - See HTML in the right
   - Magic
 
