@@ -62,6 +62,8 @@ Public methods
 Extending Validation
 ------------
  - **labsValidator.addValidator(name,fn);**
+  - callback function should return a boolean value
+  - function arguments: value, parameter, name, element, helper
  - **labsValidator.addValidatorMsg(name,fn);**
  
 
