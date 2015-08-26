@@ -48,7 +48,7 @@ add "validator-..." attribute to the element
 Public methods
 ----------
 
-	- fails()
+ - fails()
 		- returns true if validator fails
 	- passes()
 		- returns true if validator success
