@@ -49,17 +49,17 @@ Public methods
 ----------
 
 	- fails()
-		-returns true if validator fails
-	-passes()
-		-returns true if validator success
-	-displayErrors()
-		-displays validation error in the frontend
-	-reset()
-		-removes validation error in the frontend
-		-clears the validation error messages
+		- returns true if validator fails
+	- passes()
+		- returns true if validator success
+	- displayErrors()
+		- displays validation error in the frontend
+	- reset()
+		- removes validation error in the frontend
+		- clears the validation error messages
 
 
 Extending Validation
 ------------
-	-labsValidator.addValidator(name,fn);
+	- labsValidator.addValidator(name,fn);
 
