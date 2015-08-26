@@ -48,15 +48,15 @@ add "validator-..." attribute to the element
 Public methods
 ----------
 
-	- fails()
-		- returns true if validator fails
-	- passes()
-		- returns true if validator success
-	- displayErrors()
-		- displays validation error in the frontend
-	- reset()
-		- removes validation error in the frontend
-		- clears the validation error messages
+ - fails()
+  - returns true if validator fails
+ - passes()
+  - returns true if validator success
+ - displayErrors()
+  - displays validation error in the frontend
+ - reset()
+  - removes validation error in the frontend
+  - clears the validation error messages
 
 
 Extending Validation
