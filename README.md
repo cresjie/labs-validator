@@ -70,8 +70,10 @@ Extending Validation
  - **labsValidator.addValidatorMsg(name,fn);**
   - callback function should return a message (string)
   - function arguments: value, parameter, name, element, helper
-  - labsValidator.addValidatorMsg('required',function(value,name){
+```javascript
+labsValidator.addValidatorMsg('required',function(value,name){
 	return name + ' is required';  
 });
+```
  
 
