@@ -64,9 +64,11 @@ Extending Validation
  - **labsValidator.addValidator(name,fn);**
   - callback function should return a boolean value
   - function arguments: value, parameter, name, element, helper
-  - ex: labsValidator.addValidator('required',function(value){
+```javascript  
+labsValidator.addValidator('required',function(value){
   	return value ? true : false;
 	})
+```
  - **labsValidator.addValidatorMsg(name,fn);**
   - callback function should return a message (string)
   - function arguments: value, parameter, name, element, helper
