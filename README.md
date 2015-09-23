@@ -83,7 +83,7 @@ Validators Attributes
  - **validator-min**
   - minimum value if number or minimum  length for string  
  - **validator-max**
-  -maximum value if number or maximum length for string 
+  -maximum value if number or maximum length for string. 
  - **validator-email**
   - value must be an email
  - **validator-required**
