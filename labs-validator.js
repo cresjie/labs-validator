@@ -1,4 +1,4 @@
-(function(window, document){'use strict';
+(function(window, document, $){'use strict';
 
 	var isReady = false;
 
@@ -212,11 +212,22 @@
 
 			if( isReady ){
 				_init(formId,opt);
+
 			}else{
-				docReady(function(){
-					isReady = true;
-					_init(formId,opt);
-				});
+
+				if($){
+					$(function(){
+						isReady = true;
+						_init(formId,opt);
+					})
+				}else{
+					docReady(function(){
+						isReady = true;
+						_init(formId,opt);
+					});
+				}
+					
+				
 			}
 		}
 
@@ -326,7 +337,8 @@
 
 	docReady(function(e){
 		isReady = true;
+		
 	})
 	
 
-})(window, document);
+})(window, document, jQuery);
