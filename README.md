@@ -82,14 +82,21 @@ Validators Attributes
 -----------
  - **validator-min**
  - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
- - **validator-max**
+ - **validator-email**
+ - **validator-required**
+ - **validator-requiredIf**
+ - **validator-number**
+ - **validator-between**
+ - **validator-same**
+ - **validator-_in**
+ - **validator-not-in**
+ - **validator-boolean**
+ - **validator-startsWith**
+ - **validator-endsWith**
+ - **validator-regexp**
+ - **validator-url**
+ - **validator-alpha**
+ - **validator-alphaNum**
+ - **validator-alphaNumDash**
  
 
