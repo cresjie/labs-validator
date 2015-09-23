@@ -131,6 +131,22 @@
 			return name+" may only contain letters, numbers and dash";
 		}
 	};
+
+	function docReady(callback){
+		if( document.addEventListener){
+			document.addEventListener( "DOMContentLoaded",function(e){
+				callback.call(this,e);
+
+			});
+		}else if(document.attachEvent ){
+			 document.attachEvent("onreadystatechange",function(){
+			 	if ( document.readyState === "complete" ){
+			 		callback.call(this,e);
+			 	}
+			 });
+
+		}
+	}
 	
  	window.labsValidator = function(){ //labsValidator class
 
@@ -190,9 +206,6 @@
 				return this;
 			}
 		};
-
-		
-
 		
 
 		function __construct(formId,opt){
@@ -200,26 +213,18 @@
 			if( isReady ){
 				_init(formId,opt);
 			}else{
-				
-				if( document.addEventListener){
-					document.addEventListener( "DOMContentLoaded",function(){
-						isReady = true;
-						_init(formId,opt);
-					});
-				}else if(document.attachEvent ){
-					 document.attachEvent("onreadystatechange",function(){
-					 	if ( document.readyState === "complete" ){
-					 		isReady = true;
-					 		_init(formId,opt);
-					 	}
-					 });
-				}
+				docReady(function(){
+					isReady = true;
+					_init(formId,opt);
+				});
 			}
 		}
+
 
 		function _init(formId, opt){
 			form = document.getElementById(formId);
 			opts = helper.copy(defaults, opt);
+
 
 		}
 
@@ -319,6 +324,9 @@
 		return this;
 	}
 
+	docReady(function(e){
+		isReady = true;
+	})
 	
 
 })(window, document);
