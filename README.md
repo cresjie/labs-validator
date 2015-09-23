@@ -77,5 +77,19 @@ labsValidator.addValidatorMsg('required',function(value,name){
 	return name + ' is required';  
 });
 ```
+
+Validators Attributes
+-----------
+ - **validator-min**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
+ - **validator-max**
  
 
