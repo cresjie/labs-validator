@@ -4,11 +4,14 @@
 
 	var validators = {
 		min: function(val,par){
-			var n = Number(val);
-			if( n ){
-				return 	n >= par;
+			if(val){
+				var n = Number(val);
+				if( n ){
+					return 	n >= par;
+				}
+				return val.length >= par;
 			}
-			return val.length >= par;
+			
 		},
 		max: function(val, par){
 			return !this.min(val, par);
