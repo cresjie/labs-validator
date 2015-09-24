@@ -122,18 +122,24 @@ Validators Attributes
 ------------------------
  the technique is inpired by the laravel validator.
  
- returns **true** if validation passes, else returns an **object** of errors
+ returns **true** if validation passes, else returns an **object** of errors.
+ 
+ Validator rules are separated by '|' 
  
  ```javascript
  
  var validation = labsValidator.validate({
  		email: $('#email-input').val(),
  		password: $('#password').val(),
- 		confirm_password: $('#confirm_password').val()
+ 		confirm_password: $('#confirm_password').val(),
+ 		country: $('#country').val(),
+ 		city: $('#city').val()
  	},{
  		email: 'required|email',
  		password: 'required|min=6',
- 		confirm_password: 'required|same=password'
+ 		confirm_password: 'required|same=password',
+ 		country: 'required|_in:Philippines,USA,China,UK',
+ 		city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
  	});
  console.log(validation);
  ```
@@ -147,7 +153,9 @@ var User = Backbone.Model.extend({
 		var validation = labsValidator.validate(attrs,{
 			email: 'required|email',
 			password: 'required|min=8',
-			name: 'required'
+			name: 'required',
+			country: 'required|_in:Philippines,USA,China,UK',
+			city: 'requiredIf=country:Philippines'
 		});
 		
 		if( validation != true)
