@@ -118,3 +118,44 @@ Validators Attributes
   - value must be a letter, number or a dash 
  
 
+(Global) labsValidator.validate(attrs, rules)
+------------------------
+ the technique is inpired by the laravel validator.
+ 
+ returns **true** if validation passes, else returns an **object** of errors
+ 
+ ```javascript
+ 
+ var validation = labsValidator.validate({
+ 		email: $('#email-input').val(),
+ 		password: $('#password').val(),
+ 		confirm_password: $('#confirm_password').val()
+ 	},{
+ 		email: 'required|email',
+ 		password: 'required|min=6',
+ 		confirm_password: 'required|same=password'
+ 	});
+ console.log(validation);
+ ```
+
+### Backbonejs
+the labsValidator.validate() is also a perfect validator for backbonejs **Model**
+
+```javascript
+var User = Backbone.Model.extend({
+	validate: function(attrs){
+		var validation = labsValidator.validate(attrs,{
+			email: 'required|email',
+			password: 'required|min=8',
+			name: 'required'
+		});
+		
+		if( validation != true)
+			return validation;
+	}
+
+var user1 = new User;
+
+console.log(user1.isValid());
+})
+```
