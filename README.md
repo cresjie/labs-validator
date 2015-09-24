@@ -154,8 +154,10 @@ var User = Backbone.Model.extend({
 			return validation;
 	}
 
+});
+
 var user1 = new User;
 
 console.log(user1.isValid());
-})
+console.log(user1.validationError);
 ```
