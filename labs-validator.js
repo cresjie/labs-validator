@@ -204,6 +204,7 @@
 		var defaults = {
 			errorWrapper: 'p',
 			mainClass: 'labs-validator',
+			errorFieldClass: 'labs-validator-error-field',
 			attrPrefix: 'validator-'
 		};
 
@@ -256,6 +257,13 @@
 
 			for(var i = 0;i < length;i++){
 				elements.item(0).remove();
+			}
+			
+			elements = form.getElementsByClassName(opts.errorFieldClass);
+			length = elements.length;
+			
+			for(var i = 0; i < length; i++){
+				elements.item(i).classList.remove(opts.errorFieldClass);
 			}
 
 		}
@@ -324,7 +332,7 @@
 			},
 			displayErrors: function(){
 				for(var i in errors){
-					helper.addClass(errors[i].element, opts.mainClass + '-field-error');
+					helper.addClass(errors[i].element, opts.errorFieldClass);
 					for(var msgI in errors[i].messages){
 						var wrapper = document.createElement(opts.errorWrapper);
 						wrapper.innerHTML = errors[i].messages[msgI];
