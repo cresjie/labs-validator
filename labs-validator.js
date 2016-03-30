@@ -328,7 +328,7 @@
 						var wrapper = document.createElement(opts.errorWrapper);
 						wrapper.innerHTML = errors[i].messages[msgI];
 						helper.addClass(wrapper, opts.mainClass + " " + errors[i].validatorName.join(' ') );
-						errors[i].element.insertAdjacentElement('afterEnd',wrapper);
+						errors[i].element.insertAdjacentHTML('afterEnd',wrapper.outerHTML);
 
 					}
 				}
