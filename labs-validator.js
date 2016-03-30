@@ -1,5 +1,7 @@
 (function(window, document, $){'use strict';
-
+	if( typeof jQuery != 'undefined' )
+		$ = jQuery;
+		
 	var isReady = false;
 
 	var validators = {
@@ -404,4 +406,4 @@
 	})
 	
 
-})(window, document, jQuery);
+})(window, document);
