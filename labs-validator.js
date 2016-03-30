@@ -324,6 +324,7 @@
 			},
 			displayErrors: function(){
 				for(var i in errors){
+					helper.addClass(errors[i].element, opts.mainClass + '-field-error');
 					for(var msgI in errors[i].messages){
 						var wrapper = document.createElement(opts.errorWrapper);
 						wrapper.innerHTML = errors[i].messages[msgI];
