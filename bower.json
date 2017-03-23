@@ -4,7 +4,7 @@
   "license": "MIT",
   "homepage": "https://github.com/cresjie/labs-validator",
   "description": "standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.",
-  "main": "labs-validator.min.js",
+  "main": "labs-validator.js",
   "keywords": [
     "javascript validator",
     "laravel validation",
