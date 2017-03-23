@@ -1,0 +1,23 @@
+{
+  "name": "labs-validator.js",
+  "version": "1.1.0.1",
+  "license": "MIT",
+  "homepage": "https://github.com/cresjie/labs-validator",
+  "description": "standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.",
+  "main": "labs-validator.min.js",
+  "keywords": [
+    "javascript validator",
+    "laravel validation",
+    "validate"
+  ],
+  "dependencies": {
+      
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
