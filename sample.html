@@ -20,6 +20,17 @@
 				<label>Confirm Password</label>
 				<input type="password" name="confirm_password" validator-required validator-same="password">
 			</div>
+			<div>
+				<label>Gender</label>
+				<input type="radio" name="gender" value="m" id="gender-m"> <label for="gender-m">Male</label>
+				<input type="radio" name="gender" value="f" id="gender-f" validator-required> <label for="gender-f">Male</label>
+			</div>
+			<div>
+				<label>Permission</label>
+				<input type="checkbox" name="permission" id="permission-file" value="file"><label for="permission-file">File</label>
+				<input type="checkbox" name="permission" id="permission-database" value="database"><label for="permission-file">Database</label>
+				<input type="checkbox" name="permission" id="permission-graphs" value="graphs" validator-required><label for="permission-file">Graphs</label>
+			</div>
 			<button>Submit</button>
 		</form>
 

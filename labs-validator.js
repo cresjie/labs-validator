@@ -1,3 +1,9 @@
+/**
+ * labsValidator.js 1.1.2
+ * Author: Cres Jie Labasano
+ * Email: cresjie@gmail.com
+ * Standalone and lightweight form/data validation for the frontend
+ */
 (function(window, document, $){'use strict';
 	if( typeof jQuery != 'undefined' )
 		$ = jQuery;
@@ -207,7 +213,8 @@
 			errorWrapper: 'p',
 			mainClass: 'labs-validator',
 			errorFieldClass: 'labs-validator-error-field',
-			attrPrefix: 'validator-'
+			attrPrefix: 'validator-',
+			autoDisplayErrors: true
 		};
 
 		var accessor = {
@@ -263,9 +270,17 @@
 			
 			elements = form.getElementsByClassName(opts.errorFieldClass);
 			length = elements.length;
-			
 			for(var i = 0; i < length; i++){
-				elements.item(i).classList.remove(opts.errorFieldClass);
+				
+				var el = elements.item(0),
+					classList = el.className.split(' '),
+					loc = classList.indexOf(opts.errorFieldClass);
+				
+				if(loc > -1) {
+					classList.splice(loc,1)
+					el.className = classList.join(' ');
+				}
+				
 			}
 
 		}
@@ -308,7 +323,8 @@
 					 			
 					 			//calls the validator function
 					 			// if validator fails set var passes to false 
-					 			if( !validators[validatorName](el.value, attr.value, helper.toDisplayableName(el.name), el, helper, list, accessor ) ){ 
+
+					 			if( !validators[validatorName](form[el.name].value, attr.value, helper.toDisplayableName(el.name), el, helper, list, accessor ) ){ 
 					 				passes = false;
 
 					 				if( !errors[i] ){ //if error object doesnt exists
@@ -326,13 +342,25 @@
 					 				errors[i].validatorName.push(helper.toDashCase(validatorName) );
 					 			}
 					 		}
+
+					 		/**
+					 		 * if the value does not pass in the validation required
+					 		 * then just stop continuing through other validators 
+					 		 */
+
+					 		if(validatorName == 'required' && !passes) {
+					 			break;
+					 		}
 					 	}
 					 }
 				}
-				this.displayErrors();
+				if(opts.autoDisplayErrors) {
+					this.displayErrors();
+				}
+				
 				return passes;
 			},
-			displayErrors: function(){
+			displayErrors: function(){ 
 				for(var i in errors){
 					helper.addClass(errors[i].element, opts.errorFieldClass);
 					for(var msgI in errors[i].messages){
@@ -391,14 +419,18 @@
 			}
 		}
 
-		if(pass)
+		/*if(pass) {
 			return pass;
-		return errorMsg;
+		}
+			
+		return errorMsg;*/
+		return {
+			pass: pass,
+			errorMessages: errorMsg
+		};
 	}
 
-	labsValidator.test = function(){
-		console.log(123);
-	}
+	
 
 	docReady(function(e){
 		isReady = true;
