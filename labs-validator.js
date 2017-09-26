@@ -96,52 +96,52 @@
 	};
 
 	var validatorMessage = {
-		_default: 'Invalid input',
+		_default: 'Invalid input.',
 		min: function(val , par){
 			return name+" should be atleast "+par;
 		},
 		max: function(val, par,name){
-			return name+" should not be greater than "+par;
+			return name+" should not be greater than "+par+'.';
 		},
 		email: function(val){
-			return 'Invalid email';
+			return 'Invalid email.';
 		},
 		required: function(val,par,name){
-			return name+" is required";
+			return name+" is required.";
 		},
 		requiredIf: function(val, par,name){
-			return name+" is required";
+			return name+" is required.";
 		},
 		number: function(val,par,name){
-			return name+" should be a valid number";
+			return name+" should be a valid number.";
 		},
 		between: function(val,par,name){
 			var n = par.split(",");
-			return name+" must be between "+n[0]+ " and "+n[1];
+			return name+" must be between "+n[0]+ " and "+n[1]+'.';
 		},
 		same: function(val, par,name,element,helper){
-			return name+" and "+helper.toDisplayableName(par)+ " must match";
+			return name+" and "+helper.toDisplayableName(par)+ " must match.";
 		},
 		boolean: function(val,par, name){
-			return name+" must be true or false";
+			return name+" must be true or false.";
 		},
 		startsWith: function(val, par,name){
-			return name+" must starts with "+par;
+			return name+" must starts with "+par+'.';
 		},
 		endsWith: function(val, par, name){
-			return name+" must ends with "+par;
+			return name+" must ends with "+par+'.';
 		},
 		url: function(val,par, name){
-			return name+" must be a valid URL";
+			return name+" must be a valid URL.";
 		},
 		alpha: function(val, par,name){
-			return name+" may only contain letters";
+			return name+" may only contain letters.";
 		},
 		alphaNum: function(val,par,name){
-			return name+" may only container letters and numbers";
+			return name+" may only container letters and numbers.";
 		},
 		alphaNumDash: function(val, par, name){
-			return name+" may only contain letters, numbers and dash";
+			return name+" may only contain letters, numbers and dash.";
 		}
 	};
 
@@ -396,7 +396,12 @@
 	}
 
 	window.labsValidator.validate = function(attrs, rules){
-		var pass = true,errorMsg = {};
+		var pass = true,
+			errorMsg = {};
+
+		attrs = attrs || {};
+		rules = rules || {};
+
 		for(var name in rules){
 			var _validators = rules[name].split('|');
 			
@@ -408,8 +413,9 @@
 					
 					if(!validators[validatorName]( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null )) {
 						pass = false;
-						if(!errorMsg[name])
+						if(!errorMsg[name]) {
 							errorMsg[name] = [];
+						}
 
 						var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
 						var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null);
