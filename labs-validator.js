@@ -1,5 +1,5 @@
 /**
- * labsValidator.js 1.1.3
+ * labsValidator.js 1.1.4
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -35,7 +35,9 @@
 		requiredIf: function(val, par, name, element, helper, list, accessor){
 			
 			var data = par.split(":");
+
 			if( list[data[0]] == data[1] ){ 
+
 				return this.required(val);
 			}
 			return true;
@@ -169,7 +171,7 @@
 			separator = typeof separator !== 'undefined' ? separator: '[\-_]';
 			var reg = new RegExp(separator + '.','g');
 			str = str.replace(/^./,function(g){return g.toUpperCase()});
-			str = str.replace(reg,function(g){return ' '+g[1].toUpperCase();});
+			str = str.replace(reg,function(g){return ' '+g[1].toLowerCase();});
 			return str;
 		},
 		toSnakeCase: function(str,separator){
@@ -295,8 +297,15 @@
 			fails: function(){
 				return !this.passes();
 			},
-			passes: function(){
+			/**
+			 * Object customMessages
+			 * @return boolean
+			 */
+			passes: function(customMessages){
 				this.reset();
+
+				customMessages = customMessages || {};
+
 				var passes = true,
 					elements = form.elements,
 					list= {};
@@ -334,8 +343,12 @@
 					 						validatorName: []
 					 					};
 					 				}
+					 				try {
+					 					var messageRaw = customMessages[name][validatorName];
+					 				} catch(e) {
+					 					var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
+					 				}
 					 				
-					 				var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
 					 				var	message = messageRaw.constructor === String ? messageRaw : messageRaw(el.value, attr.value, helper.toDisplayableName(el.name), el, helper, list, accessor);
 
 					 				errors[i].messages.push(message);
@@ -395,12 +408,19 @@
 		return this;
 	}
 
-	window.labsValidator.validate = function(attrs, rules){
+	/**
+	 * Object attrs
+	 * Object rules
+	 * Object customMessages
+	 * @return Object
+	 */
+	window.labsValidator.validate = function(attrs, rules, customMessages){
 		var pass = true,
 			errorMsg = {};
 
 		attrs = attrs || {};
 		rules = rules || {};
+		customMessages = customMessages || {}; 
 
 		for(var name in rules){
 			var _validators = rules[name].split('|');
@@ -408,6 +428,7 @@
 			for(var i in _validators){
 				var validatorRaw = _validators[i].split('=');
 				var validatorName = helper.toCamelCase(validatorRaw[0]);
+
 
 				if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
 					
@@ -417,7 +438,12 @@
 							errorMsg[name] = [];
 						}
 
-						var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
+						try{
+							var messageRaw = customMessages[name][validatorName];
+						} catch(e) {
+							var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
+						}
+						
 						var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null);
 						errorMsg[name].push(message)
 					} 
