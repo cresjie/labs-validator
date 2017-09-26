@@ -1,5 +1,5 @@
 /**
- * labsValidator.js 1.1.2
+ * labsValidator.js 1.1.3
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
