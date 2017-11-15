@@ -1,5 +1,5 @@
 /**
- * labsValidator.js 1.1.4
+ * labsValidator.js 1.1.5
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -11,6 +11,11 @@
 	var isReady = false;
 
 	var validators = {
+		minlength: function(val, par){
+			if(val) {
+				return val.toString().length >= par;
+			}
+		},
 		min: function(val,par){
 			if(val){
 				var n = Number(val);
@@ -27,6 +32,9 @@
 		email: function(val){
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     		return re.test(val);
+		},
+		password: function(val){
+			return (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).test(val)
 		},
 		required: function(val, par, name, element, helper, list, accessor){
 			
@@ -95,18 +103,25 @@
 		alphaNumDash: function(){
 			return /^[a-zA-Z0-9\-]*$/.test(val)
 		}
+
 	};
 
 	var validatorMessage = {
 		_default: 'Invalid input.',
-		min: function(val , par){
-			return name+" should be atleast "+par;
+		minlength: function(val , par, name){
+			return name+" should be atleast "+par+'.';
+		},
+		min: function(val, par, name){
+			return name+" should be atleast "+par+'.';
 		},
 		max: function(val, par,name){
 			return name+" should not be greater than "+par+'.';
 		},
 		email: function(val){
 			return 'Invalid email.';
+		},
+		password: function(){
+			return "Password must be at least 8 characters, contain at least one uppercase, lowercase, and a number.";
 		},
 		required: function(val,par,name){
 			return name+" is required.";
