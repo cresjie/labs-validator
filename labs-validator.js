@@ -38,15 +38,28 @@
 		},
 		required: function(val, par, name, element, helper, list, accessor){
 			
-			return val ? true : false;
+			return val == null || val === '' ? false : true;
 		},
-		requiredIf: function(val, par, name, element, helper, list, accessor){
+		requiredIf: function(val){
 			
 			var data = par.split(":");
 
 			if( list[data[0]] == data[1] ){ 
-
 				return this.required(val);
+			}
+			return true;
+		},
+		requiredUnless: function(val, par, name, element, helper, list){
+			var data = par.split(':');
+			return  list[data[0]] == data[1]  ? true :this.required(val);
+			
+		},
+		requiredWithout: function(val, par, name, element, helper, list){
+			var fields = par.split(',');
+			for(var i in fields) {
+				if( list[fields[i]] == null && val == null ) {
+					return false;
+				}
 			}
 			return true;
 		},
@@ -129,6 +142,13 @@
 		requiredIf: function(val, par,name){
 			return name+" is required.";
 		},
+		requiredUnless: function(val, par, name){
+			return name+" is required.";
+		},
+		requiredWithout: function(val, par, name, el, list) {
+			var fields = par.split(',').join(', ');
+			return name+" is required when "+ fields + " is not present.";
+		},
 		number: function(val,par,name){
 			return name+" should be a valid number.";
 		},
@@ -185,8 +205,9 @@
 		toDisplayableName: function(str, separator){
 			separator = typeof separator !== 'undefined' ? separator: '[\-_]';
 			var reg = new RegExp(separator + '.','g');
+			str = str.replace(reg,function(g){return ' '+g[1].toLowerCase();}).trim();
 			str = str.replace(/^./,function(g){return g.toUpperCase()});
-			str = str.replace(reg,function(g){return ' '+g[1].toLowerCase();});
+			
 			return str;
 		},
 		toSnakeCase: function(str,separator){
