@@ -40,7 +40,7 @@
 			
 			return val == null || val === '' ? false : true;
 		},
-		requiredIf: function(val){
+		requiredIf: function(val, par, name, element, helper, list){
 			
 			var data = par.split(":");
 
