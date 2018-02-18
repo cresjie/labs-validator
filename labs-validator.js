@@ -1,5 +1,5 @@
 /**
- * labsValidator.js 1.1.5
+ * labsValidator.js 1.1.6
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -9,6 +9,10 @@
 		$ = jQuery;
 		
 	var isReady = false;
+	/**
+     * The validation rules that imply the field is required.
+     */
+	var explicitRules = ['required', 'requiredIf', 'requiredUnless', 'requiredWithout'];
 
 	var validators = {
 		minlength: function(val, par){
@@ -364,6 +368,13 @@
 					 	if( validators.startsWith( attr.name, opts.attrPrefix) ){ // if attribute starts with 
 					 		var validatorName = helper.toCamelCase( attr.name.replace(opts.attrPrefix,'') );
 
+					 		/**
+							 * if there's no value, and the validator is not one of the explicit rules, then just skip
+							 */
+					 		if( !form[el.name].value && explicitRules.indexOf(validatorName) == -1 ) {
+								continue;
+							}
+
 					 		if( validators[validatorName] ){ //if validator name exists in validator functions
 					 			
 					 			//calls the validator function
@@ -464,7 +475,13 @@
 			for(var i in _validators){
 				var validatorRaw = _validators[i].split('=');
 				var validatorName = helper.toCamelCase(validatorRaw[0]);
-
+				
+				/**
+				 * if there's no value, and the validator is not one of the explicit rules, then just skip
+				 */
+				if( !attrs[name] && explicitRules.indexOf(validatorName) == -1 ) {
+					continue;
+				}
 
 				if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
 					
