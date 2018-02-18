@@ -455,6 +455,9 @@
 		return this;
 	}
 
+	window.labsValidator.helper = helper;
+
+
 	/**
 	 * Object attrs
 	 * Object rules
