@@ -68,7 +68,7 @@
 			return true;
 		},
 		number: function(val, par){
-			return Number(val) ? true : false;
+			return Number(val) == val;
 		},
 		between:function(val,par){
 			var n = par.split(",");
