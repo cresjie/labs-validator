@@ -21,17 +21,13 @@
 			}
 		},
 		min: function(val,par){
-			if(val){
-				var n = Number(val);
-				if( n ){
-					return 	n >= par;
-				}
-				return val.length >= par;
-			}
 			
+			// check if its a number
+			return Number(val) == val ? Number(val) >= par : val.length >= par;
 		},
 		max: function(val, par){
-			return !this.min(val, par);
+			// check if its a number
+			return Number(val) == val ? Number(val) <= par : val.length <= par;
 		},
 		email: function(val){
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -141,17 +137,17 @@
 			return "Password must be at least 8 characters, contain at least one uppercase, lowercase, and a number.";
 		},
 		required: function(val,par,name){
-			return name+" is required.";
+			return name+" field is required.";
 		},
 		requiredIf: function(val, par,name){
-			return name+" is required.";
+			return name+" field is required.";
 		},
 		requiredUnless: function(val, par, name){
-			return name+" is required.";
+			return name+" field is required.";
 		},
 		requiredWithout: function(val, par, name, el, list) {
 			var fields = par.split(',').join(', ');
-			return name+" is required when "+ fields + " is not present.";
+			return name+" field is required when "+ fields + " is not present.";
 		},
 		number: function(val,par,name){
 			return name+" should be a valid number.";
