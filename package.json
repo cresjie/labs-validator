@@ -15,7 +15,7 @@
     "laravel",
     "validation",
     "form",
-    "validator",
+    "validator"
   ],
   "author": "Cres Jie Labasano",
   "license": "MIT",
