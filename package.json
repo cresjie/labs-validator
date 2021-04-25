@@ -1,0 +1,26 @@
+{
+  "name": "labs-validator",
+  "version": "1.1.6",
+  "description": "standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.",
+  "main": "labs-validator.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cresjie/labs-validator.git"
+  },
+  "keywords": [
+    "js",
+    "laravel",
+    "validation",
+    "form",
+    "validator",
+  ],
+  "author": "Cres Jie Labasano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cresjie/labs-validator/issues"
+  },
+  "homepage": "https://github.com/cresjie/labs-validator#readme"
+}

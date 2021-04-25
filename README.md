@@ -1,5 +1,5 @@
 # labs-validator
-standalone javascript form validator
+standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.
 
 Basic Usage
 ----------
