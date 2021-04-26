@@ -1,6 +1,6 @@
 
 # labs-validator
-standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.
+lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
 
 # Install
@@ -18,7 +18,7 @@ labsValidator.validate(inputObject, rules);
 Sample Basic Usage
 ----------
 ```Javascript
-var labsValidator = require('labs-validator');
+var labsValidator = require('labs-validator'); //for js modules
 
 var input = {email: 'test'};
 var rules = {
@@ -31,6 +31,8 @@ var rules = {
 };
 
 var result = labsValidator.validate(input, rules);
+// or, for non js-module
+var result = window.labsValidator.validate(input, rules);
 
 if (result.pass) {
   // do something
