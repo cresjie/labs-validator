@@ -1,10 +1,11 @@
 {
   "name": "labs-validator",
-  "version": "1.1.6",
+  "version": "2.0.0",
   "description": "standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.",
   "main": "labs-validator.min.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "terser --compress --mangle --output labs-validator.min.js labs-validator.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/cresjie/labs-validator/issues"
   },
-  "homepage": "https://github.com/cresjie/labs-validator#readme"
+  "homepage": "https://github.com/cresjie/labs-validator#readme",
+  "dependencies": {
+    "terser": "^5.6.1"
+  }
 }

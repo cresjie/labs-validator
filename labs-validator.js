@@ -4,11 +4,15 @@
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
  */
-(function(window, document, $){'use strict';
-	if( typeof jQuery != 'undefined' )
-		$ = jQuery;
-		
-	var isReady = false;
+
+(function(global, factory){
+	"use strict";
+	
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.labsValidator = factory());
+
+})(this, function(global){
 	/**
      * The validation rules that imply the field is required.
      */
@@ -182,24 +186,6 @@
 		}
 	};
 
-
-
-	function docReady(callback){
-		if( document.addEventListener){
-			document.addEventListener( "DOMContentLoaded",function(e){
-				callback.call(this,e);
-
-			});
-		}else if(document.attachEvent ){
-			 document.attachEvent("onreadystatechange",function(){
-			 	if ( document.readyState === "complete" ){
-			 		callback.call(this,e);
-			 	}
-			 });
-
-		}
-	}
-
 	var helper = {
 		
 		toDisplayableName: function(str, separator){
@@ -230,296 +216,73 @@
 				obj[k] = obj[k];
 			return obj;
 		},
-		addClass: function(el, className){
-
-			var classList = el.className.split(' ');
-			classList.push(className);
-			el.className = classList.join(' ');
-
-		
-			return this;
-		}
 	};
-	
- 	window.labsValidator = function(){ //labsValidator class
 
-		var form,
-			opts,
-			errors = {};
+	var labsValidator = {
+		addValidator: function(name, fn){
+			validators[name] = fn;
+			return this;
+		},
+		addValidatorMsg: function(name, fn){
+			validatorMessage[name] = fn;
+			return this;
+		},
+		validate: function(attrs, rules, customMessages){
+			var pass = true,
+				errorMsg = {};
 
-		var defaults = {
-			errorWrapper: 'p',
-			mainClass: 'labs-validator',
-			errorFieldClass: 'labs-validator-error-field',
-			attrPrefix: 'validator-',
-			autoDisplayErrors: true
-		};
+			attrs = attrs || {};
+			rules = rules || {};
+			customMessages = customMessages || {}; 
 
-		var accessor = {
-			getValueOf: function(name){
-			if(form[name])
-				return form[name].value;
-			},
-			getFiles: function(name){
-				if(form[name])
-					return form[name].files;
-			}
-		}
-		
-
-		function __construct(formId,opt){
-
-			if( isReady ){
-				_init(formId,opt);
-
-			}else{
-
-				if($){
-					$(function(){
-						isReady = true;
-						_init(formId,opt);
-					})
-				}else{
-					docReady(function(){
-						isReady = true;
-						_init(formId,opt);
-					});
-				}
+			for(var name in rules){
+				var _validators = rules[name].split('|');
+				
+				for(var i in _validators){
+					var validatorRaw = _validators[i].split('=');
+					var validatorName = helper.toCamelCase(validatorRaw[0]);
 					
-				
-			}
-		}
+					/**
+					 * if there's no value, and the validator is not one of the explicit rules, then just skip
+					 */
+					if( !attrs[name] && explicitRules.indexOf(validatorName) == -1 ) {
+						continue;
+					}
 
-
-		function _init(formId, opt){
-			form = document.getElementById(formId);
-			opts = helper.copy(defaults, opt);
-
-
-		}
-
-		function removeErrors(){
-			var elements = form.getElementsByClassName(opts.mainClass),
-				length = elements.length;
-
-			for(var i = 0;i < length;i++){
-				elements.item(0).remove();
-			}
-			
-			elements = form.getElementsByClassName(opts.errorFieldClass);
-			length = elements.length;
-			for(var i = 0; i < length; i++){
-				
-				var el = elements.item(0),
-					classList = el.className.split(' '),
-					loc = classList.indexOf(opts.errorFieldClass);
-				
-				if(loc > -1) {
-					classList.splice(loc,1)
-					el.className = classList.join(' ');
-				}
-				
-			}
-
-		}
-
-		
-
-		
-		__construct.apply(this,arguments);
-
-		//public methods
-		return {
-			fails: function(){
-				return !this.passes();
-			},
-			/**
-			 * Object customMessages
-			 * @return boolean
-			 */
-			passes: function(customMessages){
-				this.reset();
-
-				customMessages = customMessages || {};
-
-				var passes = true,
-					elements = form.elements,
-					list= {};
-
-				for(var i =0;i< elements.length; i++){
-					list[elements[i].name] = elements[i].value;
-				}
-
-				
-
-				for(var i =0;i < elements.length; i++){  //loop through each elements
-					
-					 var el = elements[i];
-					  var	attrs = el.attributes;
-					 	
-					 for(var attrI = 0;attrI < attrs.length; attrI++){ //loop throuh each attributes in element
-					 	var attr = attrs[attrI];
-					 	
-					 	
-					 	if( validators.startsWith( attr.name, opts.attrPrefix) ){ // if attribute starts with 
-					 		var validatorName = helper.toCamelCase( attr.name.replace(opts.attrPrefix,'') );
-
-					 		/**
-							 * if there's no value, and the validator is not one of the explicit rules, then just skip
-							 */
-					 		if( !form[el.name].value && explicitRules.indexOf(validatorName) == -1 ) {
-								continue;
+					if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
+						
+						if(!validators[validatorName]( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null )) {
+							pass = false;
+							if(!errorMsg[name]) {
+								errorMsg[name] = [];
 							}
 
-					 		if( validators[validatorName] ){ //if validator name exists in validator functions
-					 			
-					 			//calls the validator function
-					 			// if validator fails set var passes to false 
-
-					 			if( !validators[validatorName](form[el.name].value, attr.value, helper.toDisplayableName(el.name), el, helper, list, accessor ) ){ 
-					 				passes = false;
-
-					 				if( !errors[i] ){ //if error object doesnt exists
-					 					errors[i] = {
-					 						element: el,
-					 						messages:[],
-					 						validatorName: []
-					 					};
-					 				}
-					 				try {
-					 					var messageRaw = customMessages[name][validatorName];
-					 				} catch(e) {
-					 					var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
-					 				}
-					 				
-					 				var	message = messageRaw.constructor === String ? messageRaw : messageRaw(el.value, attr.value, helper.toDisplayableName(el.name), el, helper, list, accessor);
-
-					 				errors[i].messages.push(message);
-					 				errors[i].validatorName.push(helper.toDashCase(validatorName) );
-					 			}
-					 		}
-
-					 		/**
-					 		 * if the value does not pass in the validation required
-					 		 * then just stop continuing through other validators 
-					 		 */
-
-					 		if(validatorName == 'required' && !passes) {
-					 			break;
-					 		}
-					 	}
-					 }
-				}
-				if(opts.autoDisplayErrors) {
-					this.displayErrors();
-				}
-				
-				return passes;
-			},
-			displayErrors: function(){ 
-				for(var i in errors){
-					helper.addClass(errors[i].element, opts.errorFieldClass);
-					for(var msgI in errors[i].messages){
-						var wrapper = document.createElement(opts.errorWrapper);
-						wrapper.innerHTML = errors[i].messages[msgI];
-						helper.addClass(wrapper, opts.mainClass + " " + errors[i].validatorName.join(' ') );
-						errors[i].element.insertAdjacentHTML('afterEnd',wrapper.outerHTML);
-
+							try{
+								var messageRaw = customMessages[name][validatorName];
+							} catch(e) {
+								var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
+							}
+							
+							var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null);
+							errorMsg[name].push(message)
+						} 
 					}
 				}
-				return this;
-			},
-			reset: function(){
-				errors = {};
-				removeErrors();
-				return this;
-			},
-			getErrors: function(){
-				return errors;
 			}
-		};
-		
-		
-	};
 
-	window.labsValidator.addValidator = function(name, fn){
-		validators[name] = fn;
-		return this;
-	};
-	window.labsValidator.addValidatorMsg = function(name, fn){
-		validatorMessage[name] = fn;
-		return this;
-	}
-
-	window.labsValidator.helper = helper;
-
-
-	/**
-	 * Object attrs
-	 * Object rules
-	 * Object customMessages
-	 * @return Object
-	 */
-	window.labsValidator.validate = function(attrs, rules, customMessages){
-		var pass = true,
-			errorMsg = {};
-
-		attrs = attrs || {};
-		rules = rules || {};
-		customMessages = customMessages || {}; 
-
-		for(var name in rules){
-			var _validators = rules[name].split('|');
-			
-			for(var i in _validators){
-				var validatorRaw = _validators[i].split('=');
-				var validatorName = helper.toCamelCase(validatorRaw[0]);
+			/*if(pass) {
+				return pass;
+			}
 				
-				/**
-				 * if there's no value, and the validator is not one of the explicit rules, then just skip
-				 */
-				if( !attrs[name] && explicitRules.indexOf(validatorName) == -1 ) {
-					continue;
-				}
-
-				if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
-					
-					if(!validators[validatorName]( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null )) {
-						pass = false;
-						if(!errorMsg[name]) {
-							errorMsg[name] = [];
-						}
-
-						try{
-							var messageRaw = customMessages[name][validatorName];
-						} catch(e) {
-							var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
-						}
-						
-						var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null);
-						errorMsg[name].push(message)
-					} 
-				}
-			}
-		}
-
-		/*if(pass) {
-			return pass;
-		}
-			
-		return errorMsg;*/
-		return {
-			pass: pass,
-			errorMessages: errorMsg
-		};
+			return errorMsg;*/
+			return {
+				pass: pass,
+				errorMessages: errorMsg
+			};
+		},
+		helper: helper
 	}
 
+	return labsValidator;
 	
-
-	docReady(function(e){
-		isReady = true;
-		
-	})
-	
-
-})(window, document);
+});
