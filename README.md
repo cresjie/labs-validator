@@ -1,64 +1,87 @@
+
 # labs-validator
 standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.
 
-Basic Usage
-----------
-add "validator-..." attribute to the element
 
-```html
-  <body>
-    <form id="test-form">
-			<div class="form-group">
-				<label>email<label>
-				<input type="text" name="email_address" validator-required validator-email>
-			</div>
-			<div class="form-group">
-				<label>Password</label>
-				<input type="password" name="password" validator-required>
-			</div>
-			<div class="form-group">
-				<label>Confirm Password</label>
-				<input type="password" name="confirm_password" validator-required validator-same="password">
-			</div>
-			<button>Submit</button>
-		</form> 
-  
-  </body>
+# Install
 
 ```
-
-```javascript
-//pass the form element id in the labsValidator constructor
-  var validator = new labsValidator('test-form');
-  
-  
-  
-  document.getElementById('test-form').addEventListener('submit',function(e){
-        //we'll validate the inputs before the form is submitted
-        if(validator.passes()){ //method passes() return true if the inputs are valid
-		alert('Submitted');
-	}else{
-		
-		e.preventDefault();
-	}
-  });
-  
+$ npm i labs-validator --save
 ```
+If you need HTML and <form\> validation support, checkout the [v1 here](https://github.com/cresjie/labs-validator/tree/v1)
 
-Public methods
+API Usage
 ----------
+```Javascript
+labsValidator.validate(inputObject, rules);
+```
+Sample Basic Usage
+----------
+```Javascript
+var labsValidator = require('labs-validator');
 
- - **fails()**
-  - returns true if validator fails
- - **passes()**
-  - returns true if validator success
- - **displayErrors()**
-  - displays validation error in the frontend
- - **reset()**
-  - removes validation error in the frontend
-  - clears the validation error messages
+var input = {email: 'test'};
+var rules = {
+  name: 'required',
+  email: 'required|email',
+  password: 'required|min=6',
+  confirm_password: 'required|same=password',
+  country: 'required|_in:Philippines,USA,China,UK', //only the specified values are accepted
+  city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
+};
+
+var result = labsValidator.validate(input, rules);
+
+if (result.pass) {
+  // do something
+} else {
+  console.log(result.errorMessages)
+}
+
+```
+ Validation rules are separated by '|' 
 
 
+
+Validation Rules
+-----------
+ - **min**
+  - minimum value if number or minimum  length for string  
+ - **max**
+  -maximum value if number or maximum length for string. 
+ - **email**
+  - value must be an email
+ - **required**
+  - the field is required
+ - **requiredIf**
+  -the field is required if the other field matches a value. e.g validator-requiredIf="team:we are one", first argument is the field, the second is the value of the field
+ - **number**
+  - the value of the field must be a valid number
+ - **between**
+  - the value of the field must between the arguments. e.g validator-between="5,10"
+ - **same**
+  - the value of the field must be the as the other field. e.g <input type="password" name="confirm_password" validator-same="password">
+ - **_in**
+  - the value of the field must be in the list. e.g validator-_in="good,better,best"
+ - **not-in**
+  - the value of the field must not be in the list e.g validator-not-in="good,better,best"
+ - **boolean**
+  - the value of the field must be either of the following: true,false,1,0,'1','0'
+ - **startsWith**
+  - the value of the fiel must start the same as the argument. e.g validator-startsWith="my name"
+ - **endsWith**
+  - the value of the field must ends the same as the argument. validator-endsWith="cool"
+ - **regexp**
+  - the value of the field must match the regular expression in the argument
+ - **url**
+  - value must be a valid url 
+ - **alpha**
+  - value must be a letter 
+ - **alphaNum**
+  - value must be a letter or numbers 
+ - **alphaNumDash**
+  - value must be a letter, number or a dash 
+ 
 Extending Validation
 ------------
  - **labsValidator.addValidator(name,fn);**
@@ -66,101 +89,36 @@ Extending Validation
   - function arguments: value, parameter, name, element, helper
 ```javascript  
 labsValidator.addValidator('required',function(value){
-  	return value ? true : false;
-	})
+    return value ? true : false;
+  })
 ```
  - **labsValidator.addValidatorMsg(name,fn);**
   - callback function should return a message (string)
   - function arguments: value, parameter, name, element, helper
 ```javascript
 labsValidator.addValidatorMsg('required',function(value,name){
-	return name + ' is required';  
+  return name + ' is required';  
 });
 ```
 
-Validators Attributes
------------
- - **validator-min**
-  - minimum value if number or minimum  length for string  
- - **validator-max**
-  -maximum value if number or maximum length for string. 
- - **validator-email**
-  - value must be an email
- - **validator-required**
-  - the field is required
- - **validator-requiredIf**
-  -the field is required if the other field matches a value. e.g validator-requiredIf="team:we are one", first argument is the field, the second is the value of the field
- - **validator-number**
-  - the value of the field must be a valid number
- - **validator-between**
-  - the value of the field must between the arguments. e.g validator-between="5,10"
- - **validator-same**
-  - the value of the field must be the as the other field. e.g <input type="password" name="confirm_password" validator-same="password">
- - **validator-_in**
-  - the value of the field must be in the list. e.g validator-_in="good,better,best"
- - **validator-not-in**
-  - the value of the field must not be in the list e.g validator-not-in="good,better,best"
- - **validator-boolean**
-  - the value of the field must be either of the following: true,false,1,0,'1','0'
- - **validator-startsWith**
-  - the value of the fiel must start the same as the argument. e.g validator-startsWith="my name"
- - **validator-endsWith**
-  - the value of the field must ends the same as the argument. validator-endsWith="cool"
- - **validator-regexp**
-  - the value of the field must match the regular expression in the argument
- - **validator-url**
-  - value must be a valid url 
- - **validator-alpha**
-  - value must be a letter 
- - **validator-alphaNum**
-  - value must be a letter or numbers 
- - **validator-alphaNumDash**
-  - value must be a letter, number or a dash 
- 
-
-(Global) labsValidator.validate(attrs, rules)
-------------------------
- the technique is inpired by the laravel validator.
- 
- returns **true** if validation passes, else returns an **object** of errors.
- 
- Validator rules are separated by '|' 
- 
- ```javascript
- 
- var validation = labsValidator.validate({
- 		email: $('#email-input').val(),
- 		password: $('#password').val(),
- 		confirm_password: $('#confirm_password').val(),
- 		country: $('#country').val(),
- 		city: $('#city').val()
- 	},{
- 		email: 'required|email',
- 		password: 'required|min=6',
- 		confirm_password: 'required|same=password',
- 		country: 'required|_in:Philippines,USA,China,UK',
- 		city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
- 	});
- console.log(validation);
- ```
 
 ### Backbonejs
 the labsValidator.validate() is also a perfect validator for backbonejs **Model**
 
 ```javascript
 var User = Backbone.Model.extend({
-	validate: function(attrs){
-		var validation = labsValidator.validate(attrs,{
-			email: 'required|email',
-			password: 'required|min=8',
-			name: 'required',
-			country: 'required|_in:Philippines,USA,China,UK',
-			city: 'requiredIf=country:Philippines'
-		});
-		
-		if( validation != true)
-			return validation;
-	}
+  validate: function(attrs){
+    var validation = labsValidator.validate(attrs,{
+      email: 'required|email',
+      password: 'required|min=8',
+      name: 'required',
+      country: 'required|_in:Philippines,USA,China,UK',
+      city: 'requiredIf=country:Philippines'
+    });
+    
+    if( validation != true)
+      return validation;
+  }
 
 });
 
