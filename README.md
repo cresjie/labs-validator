@@ -1,4 +1,5 @@
 
+
 # labs-validator
 lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
@@ -13,7 +14,7 @@ If you need HTML and <form\> validation support, checkout the [v1 here](https://
 API Usage
 ----------
 ```Javascript
-labsValidator.validate(inputObject, rules);
+labsValidator.validate(inputObject, rules, [customMessages]);
 ```
 Sample Basic Usage
 ----------
@@ -41,7 +42,18 @@ if (result.pass) {
 }
 
 ```
+Custom Messages
+-----------
+```Javascript
+labsValidator.validate(input, rules, {
+      country: {
+        required: 'Custom message for required country.',
+        _in: 'another custom message.'
+      }
+    });
+```
  Validation rules are separated by '|' 
+
 
 
 
@@ -103,6 +115,25 @@ labsValidator.addValidatorMsg('required',function(value,name){
 });
 ```
 
+### Inertiajs
+Inertiajs re-maps the laravel error message bag into a string instead of an array. In other match and have a uniform syntax thorough out the frontend and backend, declare the **msgContainer** as String
+```Javascript
+labsValidator.msgContainer = String; //declare this
+var result = labsValidator.validate(input, rules);
+console.log(result.errorMessages);
+```
+Global Translate
+------------
+add key-value to the **translate** attribute
+```Javascript
+labsValidator.translate.administrative_area_level_2  = 'Province';
+labsValidator.translate.fname = 'First Name';
+
+//outputs the error messages into
+"Province field is required."
+"First Name field is required."
+```
+
 
 ### Backbonejs
 the labsValidator.validate() is also a perfect validator for backbonejs **Model**
@@ -118,8 +149,8 @@ var User = Backbone.Model.extend({
       city: 'requiredIf=country:Philippines'
     });
     
-    if( validation != true)
-      return validation;
+    if( !validation.pass )
+      return validation.errorMessages;
   }
 
 });

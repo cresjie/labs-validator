@@ -19,6 +19,7 @@
 	var explicitRules = ['required', 'requiredIf', 'requiredUnless', 'requiredWithout'];
 
 	var validators = {
+		//format: function(val, par, name, element, helper, list, accessor){}
 		minlength: function(val, par){
 			if(val) {
 				return val.toString().length >= par;
@@ -40,7 +41,7 @@
 		password: function(val){
 			return (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).test(val)
 		},
-		required: function(val, par, name, element, helper, list, accessor){
+		required: function(val){
 			
 			return val == null || val === '' ? false : true;
 		},
@@ -219,6 +220,8 @@
 	};
 
 	var labsValidator = {
+		msgContainer: Array,
+		translate: {},
 		addValidator: function(name, fn){
 			validators[name] = fn;
 			return this;
@@ -250,11 +253,12 @@
 					}
 
 					if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
+						var displayName = labsValidator.translate.hasOwnProperty(name) ? labsValidator.translate[name] : helper.toDisplayableName(name);
 						
-						if(!validators[validatorName]( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null )) {
+						if(!validators[validatorName]( attrs[name], validatorRaw[1], displayName,null, helper, attrs, null )) {
 							pass = false;
 							if(!errorMsg[name]) {
-								errorMsg[name] = [];
+								errorMsg[name] = new labsValidator.msgContainer;
 							}
 
 							try{
@@ -263,8 +267,8 @@
 								var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
 							}
 							
-							var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], helper.toDisplayableName(name),null, helper, attrs, null);
-							errorMsg[name].push(message)
+							var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], displayName,null, helper, attrs, null);
+							labsValidator.msgContainer == Array ? errorMsg[name].push(message) : (errorMsg[name] += ' ' + message);
 						} 
 					}
 				}
