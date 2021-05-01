@@ -1,5 +1,6 @@
 
 
+
 # labs-validator
 lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
@@ -104,18 +105,24 @@ Extending Validation
 ```javascript  
 labsValidator.addValidator('required',function(value){
     return value ? true : false;
-  })
+});
+
+labsValidator.addValidator('date', function(v){
+    return dayjs(v).isValid();
+});
 ```
  - **labsValidator.addValidatorMsg(name,fn);**
   - callback function should return a message (string)
   - function arguments: value, parameter, name, element, helper
 ```javascript
-labsValidator.addValidatorMsg('required',function(value,name){
+labsValidator.addValidatorMsg('required',function(value, par, name){
   return name + ' is required';  
+});
+labsValidator.addValidatorMsg('date',function(value, par, name){
+  return name + ' is shoud be valid date.';  
 });
 ```
 
-```
 Global Translate
 ------------
 add key-value to the **translate** attribute
@@ -126,7 +133,7 @@ labsValidator.translate.fname = 'First Name';
 //outputs the error messages into
 "Province field is required."
 "First Name field is required."
-```
+````
 
 
 ### Inertiajs
