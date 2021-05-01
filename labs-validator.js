@@ -1,5 +1,5 @@
-/**
- * labsValidator.js 1.1.6
+/*!
+ * labsValidator.js 2.0.5
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -243,7 +243,8 @@
 				
 				for(var i in _validators){
 					var validatorRaw = _validators[i].split('=');
-					var validatorName = helper.toCamelCase(validatorRaw[0]);
+					var validatorName = helper.toCamelCase(validatorRaw[0]),
+						messageRaw;
 					
 					/**
 					 * if there's no value, and the validator is not one of the explicit rules, then just skip
@@ -258,27 +259,30 @@
 						if(!validators[validatorName]( attrs[name], validatorRaw[1], displayName,null, helper, attrs, null )) {
 							pass = false;
 							if(!errorMsg[name]) {
-								errorMsg[name] = new labsValidator.msgContainer;
+								errorMsg[name] = []; 
 							}
 
 							try{
-								var messageRaw = customMessages[name][validatorName];
-							} catch(e) {
-								var messageRaw = validatorMessage[validatorName] || validatorMessage._default;
+								messageRaw = customMessages[name][validatorName];
+							} catch(e) {}
+
+							if( !messageRaw ) {
+								messageRaw = validatorMessage[validatorName] || validatorMessage._default;
 							}
 							
 							var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], displayName,null, helper, attrs, null);
-							labsValidator.msgContainer == Array ? errorMsg[name].push(message) : (errorMsg[name] += ' ' + message);
+
+							errorMsg[name].push(message)
 						} 
 					}
 				}
+
+				if(labsValidator.msgContainer == String ) {
+					errorMsg[name] = errorMsg[name].join(' ')
+				}
 			}
 
-			/*if(pass) {
-				return pass;
-			}
-				
-			return errorMsg;*/
+			
 			return {
 				pass: pass,
 				errorMessages: errorMsg
