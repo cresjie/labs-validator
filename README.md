@@ -115,12 +115,6 @@ labsValidator.addValidatorMsg('required',function(value,name){
 });
 ```
 
-### Inertiajs
-Inertiajs re-maps the laravel error message bag into a string instead of an array. In other match and have a uniform syntax thorough out the frontend and backend, declare the **msgContainer** as String
-```Javascript
-labsValidator.msgContainer = String; //declare this
-var result = labsValidator.validate(input, rules);
-console.log(result.errorMessages);
 ```
 Global Translate
 ------------
@@ -133,6 +127,14 @@ labsValidator.translate.fname = 'First Name';
 "Province field is required."
 "First Name field is required."
 ```
+
+
+### Inertiajs
+Inertiajs re-maps the laravel error message bag into a string instead of an array. In other match and have a uniform syntax thorough out the frontend and backend, declare the **msgContainer** as String
+```Javascript
+labsValidator.msgContainer = String; //declare this
+var result = labsValidator.validate(input, rules);
+console.log(result.errorMessages);
 
 
 ### Backbonejs
