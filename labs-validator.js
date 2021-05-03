@@ -1,5 +1,5 @@
 /*!
- * labsValidator.js 2.0.5
+ * labsValidator.js 2.0.6
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -244,7 +244,7 @@
 				for(var i in _validators){
 					var validatorRaw = _validators[i].split('=');
 					var validatorName = helper.toCamelCase(validatorRaw[0]),
-						messageRaw;
+						messageRaw = null;
 					
 					/**
 					 * if there's no value, and the validator is not one of the explicit rules, then just skip
@@ -267,9 +267,10 @@
 							} catch(e) {}
 
 							if( !messageRaw ) {
+
 								messageRaw = validatorMessage[validatorName] || validatorMessage._default;
 							}
-							
+
 							var	message = messageRaw.constructor === String ? messageRaw : messageRaw( attrs[name], validatorRaw[1], displayName,null, helper, attrs, null);
 
 							errorMsg[name].push(message)
@@ -277,8 +278,9 @@
 					}
 				}
 
-				if(labsValidator.msgContainer == String ) {
-					errorMsg[name] = errorMsg[name].join(' ')
+				if(errorMsg[name] && labsValidator.msgContainer == String ) {
+
+					errorMsg[name] = errorMsg[name].join(' ');
 				}
 			}
 
