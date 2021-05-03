@@ -1,6 +1,7 @@
 
 
 
+
 # labs-validator
 lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
@@ -137,12 +138,12 @@ labsValidator.translate.fname = 'First Name';
 
 
 ### Inertiajs
-Inertiajs re-maps the laravel error message bag into a string instead of an array. In other match and have a uniform syntax thorough out the frontend and backend, declare the **msgContainer** as String
+Inertiajs re-maps the laravel error message bag into a string instead of an array. In other match and have a uniform syntax through out the frontend and backend, declare the **msgContainer** as String
 ```Javascript
 labsValidator.msgContainer = String; //declare this
 var result = labsValidator.validate(input, rules);
 console.log(result.errorMessages);
-
+````
 
 ### Backbonejs
 the labsValidator.validate() is also a perfect validator for backbonejs **Model**
