@@ -1,6 +1,6 @@
 {
   "name": "labs-validator",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "standalone javascript form validator. Inspired by Laravel Validator in a form of javascript.",
   "main": "labs-validator.min.js",
   "scripts": {

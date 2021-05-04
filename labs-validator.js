@@ -1,5 +1,5 @@
 /*!
- * labsValidator.js 2.0.6
+ * labsValidator.js 2.0.8
  * Author: Cres Jie Labasano
  * Email: cresjie@gmail.com
  * Standalone and lightweight form/data validation for the frontend
@@ -115,10 +115,10 @@
 		alpha: function(val){
 			return /^[a-zA-Z]*$/.test(val);
 		},
-		alphaNum: function(){
+		alphaNum: function(val){
 			return /^[a-zA-Z0-9]*$/.test(val) ;
 		},
-		alphaNumDash: function(){
+		alphaNumDash: function(val){
 			return /^[a-zA-Z0-9\-]*$/.test(val)
 		}
 
