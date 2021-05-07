@@ -1,7 +1,7 @@
 /*!
- * labsValidator.js 2.0.8
+ * labsValidator.js 2.0.9
  * Author: Cres Jie Labasano
- * Email: cresjie@gmail.com
+ * URL: https://github.com/cresjie
  * Standalone and lightweight form/data validation for the frontend
  */
 
@@ -79,7 +79,7 @@
 			return val == list[par];
 
 		},
-		_in: function(val,par){
+		in: function(val,par){
 			var list = par.split(',');
 			return list.indexOf(val) > -1 ? true : false;
 		},
@@ -252,7 +252,7 @@
 					if( !attrs[name] && explicitRules.indexOf(validatorName) == -1 ) {
 						continue;
 					}
-
+					
 					if(validators[validatorName]){ //if validator name exists el.value, attr.value, helper.toDisplayableName(el.name), el, helper 
 						var displayName = labsValidator.translate.hasOwnProperty(name) ? labsValidator.translate[name] : helper.toDisplayableName(name);
 						

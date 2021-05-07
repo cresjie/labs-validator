@@ -2,6 +2,7 @@
 
 
 
+
 # labs-validator
 lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
@@ -29,7 +30,7 @@ var rules = {
   email: 'required|email',
   password: 'required|min=6',
   confirm_password: 'required|same=password',
-  country: 'required|_in:Philippines,USA,China,UK', //only the specified values are accepted
+  country: 'required|in:Philippines,USA,China,UK', //only the specified values are accepted
   city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
 };
 
@@ -50,7 +51,7 @@ Custom Messages
 labsValidator.validate(input, rules, {
       country: {
         required: 'Custom message for required country.',
-        _in: 'another custom message.'
+        in: 'another custom message.'
       }
     });
 ```
@@ -77,8 +78,8 @@ Validation Rules
   - the value of the field must between the arguments. e.g validator-between="5,10"
  - **same**
   - the value of the field must be the as the other field. e.g <input type="password" name="confirm_password" validator-same="password">
- - **_in**
-  - the value of the field must be in the list. e.g validator-_in="good,better,best"
+ - **in**
+  - the value of the field must be in the list. e.g validator-in="good,better,best"
  - **not-in**
   - the value of the field must not be in the list e.g validator-not-in="good,better,best"
  - **boolean**
@@ -155,7 +156,7 @@ var User = Backbone.Model.extend({
       email: 'required|email',
       password: 'required|min=8',
       name: 'required',
-      country: 'required|_in:Philippines,USA,China,UK',
+      country: 'required|in:Philippines,USA,China,UK',
       city: 'requiredIf=country:Philippines'
     });
     
