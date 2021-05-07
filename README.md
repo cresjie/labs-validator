@@ -20,6 +20,11 @@ API Usage
 ```Javascript
 labsValidator.validate(inputObject, rules, [customMessages]);
 ```
+Breaking Changes 2.0.x to 2.1.x
+----------
+
+ - use colon (:) as parameter indicator (same as Laravel validator) unlike the v2.0.x which uses equal sign (=)
+
 Sample Basic Usage
 ----------
 ```Javascript
