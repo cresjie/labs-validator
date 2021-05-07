@@ -30,7 +30,7 @@ var rules = {
   email: 'required|email',
   password: 'required|min=6',
   confirm_password: 'required|same=password',
-  country: 'required|in:Philippines,USA,China,UK', //only the specified values are accepted
+  country: 'required|in=Philippines,USA,China,UK', //only the specified values are accepted
   city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
 };
 
