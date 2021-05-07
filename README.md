@@ -3,6 +3,7 @@
 
 
 
+
 # labs-validator
 lightweight and standalone javascript validator. Inspired by Laravel Validator in a form of javascript.
 
@@ -28,10 +29,10 @@ var input = {email: 'test'};
 var rules = {
   name: 'required',
   email: 'required|email',
-  password: 'required|min=6',
-  confirm_password: 'required|same=password',
-  country: 'required|in=Philippines,USA,China,UK', //only the specified values are accepted
-  city: 'requiredIf=country:Philippines' //city is required if the country is Philippines
+  password: 'required|min:6',
+  confirm_password: 'required|same:password',
+  country: 'required|in:Philippines,USA,China,UK', //only the specified values are accepted
+  city: 'requiredIf:country,Philippines' //city is required if the country is Philippines
 };
 
 var result = labsValidator.validate(input, rules);
@@ -154,10 +155,10 @@ var User = Backbone.Model.extend({
   validate: function(attrs){
     var validation = labsValidator.validate(attrs,{
       email: 'required|email',
-      password: 'required|min=8',
+      password: 'required|min:8',
       name: 'required',
       country: 'required|in:Philippines,USA,China,UK',
-      city: 'requiredIf=country:Philippines'
+      city: 'requiredIf:country:Philippines'
     });
     
     if( !validation.pass )

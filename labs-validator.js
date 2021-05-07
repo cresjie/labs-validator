@@ -1,5 +1,5 @@
 /*!
- * labsValidator.js 2.0.9
+ * labsValidator.js 2.1.0
  * Author: Cres Jie Labasano
  * URL: https://github.com/cresjie
  * Standalone and lightweight form/data validation for the frontend
@@ -47,16 +47,16 @@
 		},
 		requiredIf: function(val, par, name, element, helper, list){
 			
-			var data = par.split(":");
+			var data = par.split(","),
+				attrName = data.shift();
 
-			if( list[data[0]] == data[1] ){ 
-				return this.required(val);
-			}
-			return true;
+			return data.indexOf(list[attrName]) == -1;
 		},
 		requiredUnless: function(val, par, name, element, helper, list){
-			var data = par.split(':');
-			return  list[data[0]] == data[1]  ? true :this.required(val);
+			var data = par.split(','),// par.split(':');
+				attrName = data.shift();
+
+			return  data.indexOf(list[attrName]) > -1  ? true :this.required(val);
 			
 		},
 		requiredWithout: function(val, par, name, element, helper, list){
@@ -242,7 +242,7 @@
 				var _validators = rules[name].split('|');
 				
 				for(var i in _validators){
-					var validatorRaw = _validators[i].split('=');
+					var validatorRaw = _validators[i].split(':');
 					var validatorName = helper.toCamelCase(validatorRaw[0]),
 						messageRaw = null;
 					
