@@ -90,7 +90,7 @@
 		},
 		boolean: function(val){
 			var acceptable = [true, false, 0, 1, '0', '1'];
-			return acceptable.indexOf(val) ? true: false;
+			return acceptable.includes(val)
 		},
 		startsWith: function(val,par){
 			var r = new RegExp('^'+par);
