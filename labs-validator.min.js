@@ -1,5 +1,5 @@
 /*!
- * labsValidator.js 2.1.3
+ * labsValidator.js 2.1.4
  * Author: Cres Jie Labasano
  * URL: https://github.com/cresjie
  * Standalone and lightweight form/data validation for the frontend
